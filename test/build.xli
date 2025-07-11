@@ -1,0 +1,33 @@
+all = {
+  yilai1, yilai2,
+  yilai3,
+  yilai4
+}
+yilai1 = {
+  type = bin,
+  compiler = /bin/g++,
+  options = {
+    -o main
+  }
+  files = {
+    src/*.cc
+  },
+  imp = {
+    yilai2,
+    yilai3,
+    yilai4
+  }
+}
+yilai2 = {
+  type = lib,
+  compiler = /bin/g++,
+  files = {
+    git:***/***
+    https:***/***/***
+  }
+  options = {
+    -o lib***.so
+  }
+
+}
+..........
