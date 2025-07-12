@@ -1,2 +1,0 @@
-build:
-  command: "g++ /code/mp/xli/testsrc/* -o main"

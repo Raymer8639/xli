@@ -7,7 +7,7 @@ void Xli::init()
    
   cout << this->workspace << endl;
   cout << "=> running init commands...";
-  string cmd = "cd " + this->workspace + ";mkdir -p build xli src include;touch xli/tasks.yaml;mkdir -p build/objs;touch build.xli";
+  string cmd = "cd " + this->workspace + ";mkdir -p build src include;mkdir -p build/objs;touch xli.yaml";
   run_cmd(cmd); 
   cout << "susess!" << endl;
   cout << "=> end init"<< endl;

@@ -6,7 +6,7 @@
 #include "yaml-cpp/yaml.h"
 using namespace std;
 
-string XLI_workspace;
+inline string XLI_workspace;
 
 string run_cmd(string);
 class Xli

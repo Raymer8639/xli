@@ -16,11 +16,11 @@
 },
 {
   "directory": "/code/mp/xli",
-  "arguments": ["/usr/sbin/gcc", "-c", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Iinclude", "-DNDEBUG", "-o", "build/.objs/xli/linux/arm64/release/src/xli_Xli_run_task_cptr.cc.o", "src/xli_Xli_run_task_cptr.cc"],
-  "file": "src/xli_Xli_run_task_cptr.cc"
+  "arguments": ["/usr/sbin/gcc", "-c", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Iinclude", "-DNDEBUG", "-o", "build/.objs/xli/linux/arm64/release/src/run_task_string.cc.o", "src/run_task_string.cc"],
+  "file": "src/run_task_string.cc"
 },
 {
   "directory": "/code/mp/xli",
-  "arguments": ["/usr/sbin/gcc", "-c", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Iinclude", "-DNDEBUG", "-o", "build/.objs/xli/linux/arm64/release/src/run_task_string.cc.o", "src/run_task_string.cc"],
-  "file": "src/run_task_string.cc"
+  "arguments": ["/usr/sbin/gcc", "-c", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-Iinclude", "-DNDEBUG", "-o", "build/.objs/xli/linux/arm64/release/src/xli_Xli_run_cmd_cptr.cc.o", "src/xli_Xli_run_cmd_cptr.cc"],
+  "file": "src/xli_Xli_run_cmd_cptr.cc"
 }]

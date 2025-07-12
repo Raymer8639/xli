@@ -1,92 +1,85 @@
 #include "xli.h"
 
-enum class struct_type
-{
-  IF = 0,
-  TARGET,
-  ELSE,
-  ELSEIF,
-  NULL_
-};
+bool skip_no_task_error = 0;
 
-struct xli_struct 
+bool if_is_have_target_task(char *task_name,const char *dir)
 {
-  char *keyword = nullptr;
-  char *task_name = nullptr;
-  bool is;
-  vector<string> value;
-};
-
-struct_type* last_s_t = nullptr;
-
-vector<string> update_task()
-{
-  string root_build_file_this_line;
-  string& rbftl = root_build_file_this_line;
-  string root_file = XLI_workspace + "/build.xli";
-  fstream root_build_file(root_file.c_str(), ios::in);
-  xli_struct xtruct;
-  while (root_build_file >> rbftl)
+  string build_file_path = XLI_workspace + "/" + dir + "/xli.yaml";
+  YAML::Node yaml;
+  try 
   {
-    struct_type s_t = struct_type::NULL_;
-    last_s_t = &s_t;
-
-    xtruct.keyword = (char*)rbftl.c_str();
-    if (rbftl == "if")
-    {
-      s_t = struct_type::IF;
-    } else if (rbftl == "target")
-    {
-      s_t = struct_type::TARGET;
-    } else if (rbftl == "else")
-    {
-      if (!((*last_s_t) == struct_type::IF || (*last_s_t) == struct_type::ELSEIF))
-        throw "In front of else keyword have no if(else) keyword!";
-      
-      s_t = struct_type::ELSE;
-    } else if (rbftl == "elif")
-    {
-      if (!(last_s_t == 0))
-        throw "In front of else keyword have no if(else) keyword!";;
-      s_t = struct_type::ELSEIF;
-    }
-    root_build_file >> rbftl;
-    xtruct.task_name = (char*)rbftl.c_str();
-    root_build_file >> rbftl;
-    if (rbftl != "=")
-      throw "don't have '='";
-    root_build_file >> rbftl;
-    switch (s_t) 
-    {
-      case struct_type::TARGET: {
-        root_build_file >> rbftl; // skip '{'
-        do 
-        {
-          root_build_file >> rbftl;
-          
-          
-
-  
-        } while (rbftl != "}");
-      }
-      break;
-      case struct_type::IF:
-      break;
-      case struct_type::ELSEIF:
-      break;
-      case struct_type::ELSE:
-      break;
-      default:
-        throw "have no keyword!";
-        break;
-    }
-
+    yaml = YAML::LoadFile(build_file_path.c_str());
+  } catch (YAML::BadFile &bf_e)
+  {
+    cerr << "There is no xli.yaml file!" << endl;
+    exit(-1);
   }
+  try
+  {
+    string temp;
+    vector<string> subdirs_v_s;
+    string subdirs = yaml["subdirs"].as<string>();
+    for (auto a : subdirs)
+    {
+      if (a != ' ')
+        temp += a;
+      else {
+        subdirs_v_s.push_back(temp);
+        temp.clear();
+        continue;
+      }
+      for (auto it = subdirs_v_s.begin(); it != subdirs_v_s.end(); it++) 
+      {
+
+        if ((it + 1) == subdirs_v_s.end())
+          skip_no_task_error = 1;
+        
+        if (if_is_have_target_task(task_name, it->c_str()))
+        {
+          return 1;
+        }
+
+      }
+
+    }
+  } catch (YAML::InvalidNode &in_e)
+  {}
+  try 
+  {
+    string a = yaml[(const char*)task_name]["type"].as<string>();
+    return 1;
+  } catch (YAML::InvalidNode &in_e)
+  {
+    if (!skip_no_task_error)
+    {
+      cerr << "No that task!" << endl;
+      exit(-1);
+    } 
+  } catch (YAML::BadSubscript bs_e)
+  {
+    cerr << "There is no important 'sub var'" << endl;
+    exit(-1);
+  }
+  return 0;
 
 }
 
 bool Xli::run_task(char* task_name)
 {
-  update_task();
+
+  if (!if_is_have_target_task(task_name, "."))
+  {
+    if (!skip_no_task_error)
+    {
+      cerr << "No that task!" << endl;
+      exit(-1);
+    }
+    exit(-1);
+  }
+  cout << "1";
+  string build_file_path = XLI_workspace + "/xli.yaml";
+  YAML::Node build_file = YAML::LoadFile((char*)build_file_path.c_str());
+
+
   return 1;
 }
